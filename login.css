@@ -1,0 +1,220 @@
+/* General reset and dark background (Unchanged) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #1a1a1a; 
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    padding: 20px; 
+}
+
+/* --- Login Container Styling (Desktop Base) --- */
+.login-container {
+    position: relative;
+    max-width: 350px; 
+    width: 100%; 
+    padding: 40px;
+    background-color: #2c2c2c; 
+    border-radius: 20px;
+    /* overflow: hidden; is crucial for clipping the large gradient */
+    overflow: hidden; 
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); 
+    /* Adding a smooth transition for when the animation starts/stops */
+    transition: transform 0.3s ease-out;
+}
+
+/*  --- The Modern, Flowing Border Animation ---  */
+
+/* ::before: Creates the large, rotating conic gradient */
+.login-container::before {
+    content: '';
+    position: absolute;
+    /* Position the pseudo-element far outside the container to cover it completely */
+    top: -50%;
+    left: -50%;
+    /* Must be much larger than 100% to allow the gradient to "sweep" */
+    width: 200%;
+    height: 200%;
+    border-radius: inherit; /* Inherit the container's rounded corners */
+
+    /* The Conic Gradient: Creates a bright streak surrounded by dark space */
+    background: conic-gradient(
+        transparent 0deg, 
+        transparent 180deg, 
+        /* The glow effect band */
+        #ff0077 180deg, /* Starting color (Neon Pink) */
+        #00c6ff 270deg, /* Transition color (Neon Blue) */
+        #ff0077 360deg 
+    );
+    z-index: -1;
+
+    /* Animation is paused and transparent by default */
+    animation: rotate-sweep 6s linear infinite paused; 
+    opacity: 0; 
+    transition: opacity 0.5s ease;
+}
+
+/* ::after: Creates the inner, dark layer to create the "border" effect */
+.login-container::after {
+    content: '';
+    position: absolute;
+    /* Offset slightly from the edge to create the appearance of a solid border */
+    top: 3px; 
+    left: 3px;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    border-radius: 17px; /* Adjusted radius to match 3px offset */
+    background: #2d2d39; 
+    /* Dark inner shadow for depth */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8); 
+    z-index: -1;
+}
+
+/* --- Keyframe Animation (Only one is needed now for smooth rotation) --- */
+@keyframes rotate-sweep {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Control the Animation Start/Stop (Requires JS to toggle the 'active' class) --- */
+
+/* When the 'active' class is added to .login-container, the animation starts and fades in */
+.login-container.active::before {
+    animation-play-state: running;
+    opacity: 1;
+}
+
+/* --- Form Element Styling (The rest is for completeness and remains largely the same) --- */
+
+/* Title Styling */
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+    color: #ff0077; 
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #ff0077; 
+}
+
+/* Input Field Group Styling */
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+    width: 100%; 
+    height: 50px; 
+}
+
+.input-group input {
+    width: 100%;
+    height: 100%;
+    padding: 0 15px;
+    background: #25252b; 
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #444; 
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+/* Label and Focus/Valid States */
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.input-group input:focus,
+.input-group input:valid {
+    border: 1px solid #00c6ff; 
+    box-shadow: 0 0 10px #00c6ff; 
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+    top: 0;
+    left: 10px;
+    font-size: 0.8rem;
+    color: #00c6ff;
+    padding: 0 5px;
+    background: #25252b; 
+}
+
+/* Button Styling */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.sign-in {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: #ff0077; 
+    color: #fff;
+    box-shadow: 0 0 10px #ff0077;
+}
+
+.sign-in:hover {
+    background-color: #ff3399;
+    box-shadow: 0 0 20px #ff0077;
+}
+
+/* Links (Forgot Password & Sign Up) */
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.forgot {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.forgot:hover {
+    color: #00c6ff;
+    text-shadow: 0 0 5px #00c6ff;
+}
+
+.sign-up {
+    background-color: #00c6ff; 
+    color: #1a1a1a;
+    box-shadow: 0 0 10px #00c6ff;
+}
+
+.sign-up:hover {
+    background-color: #33d9ff;
+    box-shadow: 0 0 20px #00c6ff;
+}
+
+/* --- 📱 Media Queries for Responsiveness 📱 --- */
+@media (max-width: 400px) {
+    .login-container {
+        padding: 30px 20px; 
+    }
+    /* ... other responsive adjustments ... */
+}
